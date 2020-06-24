@@ -5,7 +5,7 @@ namespace artnn
     template <typename T>
     bool Perceptron<T>::train(const std::vector<T>& X, T desiredOutput)
     {
-        T y = evaluate(X);
+        T y = Neuron<T>::evaluate(X);
         if(y != desiredOutput)
         {
             for(uint i = 0; i < Neuron<T>::mSize; i++)
@@ -17,4 +17,10 @@ namespace artnn
         }
         return false;
     }
+
+    template class Perceptron<float>;
+    template class Perceptron<double>;
+    template class Perceptron<long double>;
+    template class Perceptron<int>;
+    template class Perceptron<long long>;
 };
