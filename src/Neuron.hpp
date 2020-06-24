@@ -16,27 +16,27 @@
 
 namespace artnn
 {
-	template <typename T>
-	class Neuron
-	{
-	public:
-		// Get output of feeding input Vector X to the neuron
-		T evaluate(const std::vector<T>& X);
+    template <typename T>
+    class Neuron
+    {
+    public:
+        // Get output of feeding input Vector X to the neuron
+        T evaluate(const std::vector<T>& X);
 
-		// Randomize Synaptic Weights Vector
-		void randomizeWeights(std::function<T()> randFunc);
+        // Randomize Synaptic Weights Vector
+        void randomizeWeights(std::function<T()> randFunc);
 
-		// Train function for one input with known desired output
-		// To be implemented in subclasses 
-		virtual bool train(const std::vector<T>& X, const T desiredOutput) = 0;
+        // Train function for one input with known desired output
+        // To be implemented in subclasses 
+        virtual bool train(const std::vector<T>& X, const T desiredOutput) = 0;
 
-	protected:
-		uint mSize;					// Size of the Weights Vector
-		std::function<T(T)> mSigma; // Activation Function
-		std::vector<T> mWeights; 	// Synaptic Weights
-		T mEtha; 					// Learning Factor
+    protected:
+        uint mSize;                 // Size of the Weights Vector
+        std::function<T(T)> mSigma; // Activation Function
+        std::vector<T> mWeights;    // Synaptic Weights
+        T mEtha;                    // Learning Factor
 
-		// Dot product between two vectors
-		static T dotProduct(const std::vector<T>& X, const std::vector<T>& Y);
-	};
+        // Dot product between two vectors
+        static T dotProduct(const std::vector<T>& X, const std::vector<T>& Y);
+    };
 };
