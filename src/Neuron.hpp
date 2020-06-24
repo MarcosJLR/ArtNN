@@ -20,6 +20,10 @@ namespace artnn
     class Neuron
     {
     public:
+        // Constructor
+        Neuron(uint tSize, std::function<T(T)> tSigma, T tEtha)
+            : mSize(tSize), mSigma(tSigma), mWeights(mSize), mEtha(tEtha) {}
+
         // Get output of feeding input Vector X to the neuron
         T evaluate(const std::vector<T>& X);
 
