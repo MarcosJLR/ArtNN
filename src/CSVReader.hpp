@@ -22,7 +22,7 @@ namespace artnn
             : filename(filename), delimiter(delim) {}
 
         // Get the contents of the file
-        std::vector<std::vetor<std::string>> getData();
+        std::vector<std::vector<std::string>> getData();
 
     private:
         std::string filename;
@@ -31,5 +31,5 @@ namespace artnn
         // Helper Functions
         std::vector<std::string> parseLine(std::string& line);
         bool isDelimiter(char c);
-    }
+    };
 };
