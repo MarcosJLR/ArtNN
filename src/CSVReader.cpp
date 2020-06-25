@@ -48,6 +48,6 @@ namespace artnn
 
     bool CSVReader::isDelimiter(char c)
     {
-        return delimiter.find(c) != delimiter.end();
+        return delimiter.find(c) != std::string::npos;
     }
 };
