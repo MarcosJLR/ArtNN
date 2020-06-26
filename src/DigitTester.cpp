@@ -57,9 +57,9 @@ int main(int argc, char* argv[])
     artnn::DigitPerceptronNet perceptron1(0.01);
     artnn::DigitPerceptronNet perceptron2(0.1);
 
-    artnn::DigitAdalineNet adaline0(0.001);
-    artnn::DigitAdalineNet adaline1(0.01);
-    artnn::DigitAdalineNet adaline2(0.1);
+    artnn::DigitAdalineNet adaline0(0.0001);
+    artnn::DigitAdalineNet adaline1(0.001);
+    artnn::DigitAdalineNet adaline2(0.01);
 
     std::cout << "\nTraining Perceptron Network 0 for 50 epochs (etha = 0.001)...\n";
     perceptron0.trainFull(trainingData, 50, 0);
@@ -73,15 +73,15 @@ int main(int argc, char* argv[])
     perceptron2.trainFull(trainingData, 50, 0);
     std::cout << "Training finished succesfully\n";
 
-    std::cout << "\nTraining Adaline Network 0 for 50 epochs (etha = 0.001)...\n";
+    std::cout << "\nTraining Adaline Network 0 for 50 epochs (etha = 0.0001)...\n";
     adaline0.trainFull(trainingData, 50, 0);
     std::cout << "Training finished succesfully\n";
 
-    std::cout << "\nTraining Adaline Network 1 for 50 epochs (etha = 0.01)...\n";
+    std::cout << "\nTraining Adaline Network 1 for 50 epochs (etha = 0.001)...\n";
     adaline1.trainFull(trainingData, 50, 0);
     std::cout << "Training finished succesfully\n";
 
-    std::cout << "\nTraining Adaline Network 2 for 50 epochs (etha = 0.1)...\n";
+    std::cout << "\nTraining Adaline Network 2 for 50 epochs (etha = 0.01)...\n";
     adaline2.trainFull(trainingData, 50, 0);
     std::cout << "Training finished succesfully\n";
 
@@ -99,15 +99,15 @@ int main(int argc, char* argv[])
     hitCount = perceptron2.test(testingData);
     std::cout << "Classified correctly " << hitCount << " out of " << testingData.size() << "\n";
 
-    std::cout << "\nTesting Adaline Network 0 (etha = 0.001)...\n";
+    std::cout << "\nTesting Adaline Network 0 (etha = 0.0001)...\n";
     hitCount = adaline0.test(testingData);
     std::cout << "Classified correctly " << hitCount << " out of " << testingData.size() << "\n";
 
-    std::cout << "\nTesting Adaline Network 1 (etha = 0.01)...\n";
+    std::cout << "\nTesting Adaline Network 1 (etha = 0.001)...\n";
     hitCount = adaline1.test(testingData);
     std::cout << "Classified correctly " << hitCount << " out of " << testingData.size() << "\n";
 
-    std::cout << "\nTesting Adaline Network 2 (etha = 0.1)...\n";
+    std::cout << "\nTesting Adaline Network 2 (etha = 0.01)...\n";
     hitCount = adaline2.test(testingData);
     std::cout << "Classified correctly " << hitCount << " out of " << testingData.size() << "\n";
 }
