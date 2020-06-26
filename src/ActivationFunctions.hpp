@@ -14,9 +14,15 @@ namespace artnn
 {
     // Sign function: 0 if x < 0 and 1 otherwise
     template <typename T>
-    T sgn(T x);
+    inline T sgn(T x)
+    {
+        return x < 0 ? 0 : 1;  
+    }
 
     // Identity function
     template <typename T>
-    T id(T x); 
+    inline T id(T x)
+    {
+    	return x;
+    } 
 };
