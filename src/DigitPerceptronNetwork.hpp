@@ -43,6 +43,14 @@ namespace artnn
         int trainFull(std::vector<std::pair<std::vector<double>, int>>& input,
                       const uint maxEpoch = 50, const double eps = 0.0);
 
+        // Feed input to Network and return classification
+        // Returns -1 if it doesn't recognize any digit
+        int evaluate(std::vector<double>& X);
+
+        // Test a batch of data and return the number of 
+        // samples classified correctly
+        int test(std::vector<std::pair<std::vector<double>, int>>& input);
+
     private:
         Perceptron<double>* mNeurons[10];      // Output Neurons
 
