@@ -22,7 +22,7 @@ namespace artnn
     }
 
     template <typename T>
-    int Interpolator<T>::trainFull(std::vector<std::pair<T,T>>& input,
+    T Interpolator<T>::trainFull(std::vector<std::pair<T,T>>& input,
                                  uint maxEpoch, T epsilon)
     {
         std::vector<std::pair<std::vector<T>, T>> processedInput;
@@ -32,13 +32,15 @@ namespace artnn
             processedInput.push_back({createPolyVector(x), y});
         }
 
+        T sqError = 0;
         for(uint i = 0; i < maxEpoch; i++)
         {
-            if(trainEpoch(processedInput) <= epsilon) 
-                return i + 1;
+            sqError = trainEpoch(processedInput);
+            if(sqError <= epsilon) 
+                return sqError;
         }
 
-        return maxEpoch;
+        return sqError;
     }
 
     template <typename T>
@@ -53,6 +55,19 @@ namespace artnn
         }
 
         return polyVector;
+    }
+
+    template <typename T>
+    void Interpolator<T>::plotPoints(std::vector<T>& X, std::string filename)
+    {
+        std::ofstream file(filename);
+
+        for(auto& x : X)
+        {
+            file << x << "," << eval(x) << "\n";
+        }
+
+        file.close();
     }
 
     template class Interpolator<float>;

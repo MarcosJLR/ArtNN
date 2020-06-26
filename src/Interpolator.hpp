@@ -11,6 +11,8 @@
 #include <vector>
 #include <random>
 #include <algorithm>
+#include <fstream>
+#include <string>
 
 #include "Adaline.hpp"
 
@@ -30,9 +32,15 @@ namespace artnn
 
         // Train for given number of epochs or until error
         // is less than epsilon
-        // Return number of epochs trained
-        int trainFull(std::vector<std::pair<T, T>>& input, 
+        // Return mean squared error after last epoch
+        T trainFull(std::vector<std::pair<T, T>>& input, 
                       uint maxEpoch = 50, T epsilon = 0.0);
+
+        // Evaluates polynomial in x
+        inline T eval(T x) { return this->evaluate(createPolyVector(x)); } 
+
+        // Plot into a CSV file
+        void plotPoints(std::vector<T>& X, std::string filename);
 
     private:
         // Helper functions
