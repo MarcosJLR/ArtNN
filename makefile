@@ -2,11 +2,14 @@
 
 CC = g++
 CFLAGS = -std=c++17 -O2 -Wall
-OBJS = Neuron.o CSVReader.o Perceptron.o Adaline.o DigitAdalineNetwork.o DigitPerceptronNetwork.o
+OBJS = Neuron.o CSVReader.o Perceptron.o Adaline.o DigitAdalineNetwork.o DigitPerceptronNetwork.o Interpolator.o
 
-all: DigitTester clean
+all: DigitTester PolyTester clean
 
 DigitTester: src/DigitTester.cpp $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $< $(OBJS)
+
+PolyTester: src/PolyTester.cpp $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $< $(OBJS)
 
 Neuron.o: src/Neuron.cpp src/Neuron.hpp 
@@ -19,6 +22,9 @@ Perceptron.o: src/Perceptron.cpp src/Perceptron.hpp src/ActivationFunctions.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 Adaline.o: src/Adaline.cpp src/Adaline.hpp src/ActivationFunctions.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+Interpolator.o: src/Interpolator.cpp src/Interpolator.hpp src/Adaline.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 DigitPerceptronNetwork.o: src/DigitPerceptronNetwork.cpp src/DigitPerceptronNetwork.hpp
