@@ -52,4 +52,36 @@ namespace artnn
         return maxEpoch;
     }
 
+    int DigitAdalineNet::evaluate(std::vector<double>& X)
+    {
+        int answer = -1;
+        int count = 0;
+
+        for(uint i = 0; i < 10; i++)
+        {
+            double y = mNeurons[i]->evaluate(X);
+            if(y > 0.5)
+            {
+                count++;
+                answer = i;
+            }
+        }
+
+        return count == 1 ? answer : -1;
+    }
+
+    int DigitAdalineNet::test(std::vector<std::pair<std::vector<double>, int>>& input)
+    {
+        int count = 0;
+        for(auto& [X, d] : input)
+        {
+            int y = evaluate(X);
+            if(y == d)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
 };
