@@ -23,6 +23,6 @@ namespace artnn
             : Neuron<T>(tSize, sgn<T>, tEtha) {}
 
         // Perceptron training function
-        bool train(const std::vector<T>& X, const T desiredOutput) override;
+        bool train(const std::vector<T>& X, const T desiredOutput);
     };
 };

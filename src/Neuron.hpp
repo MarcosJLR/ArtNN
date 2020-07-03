@@ -30,10 +30,6 @@ namespace artnn
         // Randomize Synaptic Weights Vector
         void randomizeWeights(std::function<T()> randFunc);
 
-        // Train function for one input with known desired output
-        // To be implemented in subclasses 
-        virtual bool train(const std::vector<T>& X, const T desiredOutput) = 0;
-
     protected:
         uint mSize;                 // Size of the Weights Vector
         std::function<T(T)> mSigma; // Activation Function
