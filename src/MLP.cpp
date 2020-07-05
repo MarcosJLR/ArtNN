@@ -114,4 +114,30 @@ namespace artnn
 			N.randomizeWeights(randFunc);
 		}
 	}
+
+	template <typename T>
+	T MLP<T>::trainEpoch(std::vector<std::pair<std::vector<T>, std::vector<T>>>& trainingData)
+	{
+		random_shuffle(trainingData.begin(), trainingData.end());
+		T avgError = 0.0;
+
+		for(auto& [X, D] : trainingData)
+		{
+			avgError += train(X, D);
+		}
+
+		return avgError / (double) trainingData.size();
+	}
+
+	template class MLPNeuron<float>;
+	template class MLPNeuron<double>;
+	template class MLPNeuron<long double>;
+
+	template class MLPLayer<float>;
+	template class MLPLayer<double>;
+	template class MLPLayer<long double>;
+	
+	template class MLP<float>;
+	template class MLP<double>;
+	template class MLP<long double>;
 };

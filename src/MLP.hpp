@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <random>
+
 #include "Neuron.hpp"
 #include "ActivationFunctions.hpp"
 
@@ -19,12 +21,11 @@ namespace artnn
     class MLPNeuron : public Neuron<T>
     {
     public:
-        MLPNeuron(uint tSize, T tEtha, int aNum = 1, int aDen = 1, T tAlpha = 0)
-            : Neuron<T>(tSize, logistic<T,aNum,aDen>, tEtha), 
-              mAlpha(tAlpha), mLastDeltaW(tSize, 0) 
-        {
-            mLogisticConst = static_cast<T>(aNum) / static_cast<T>(aDen);
-        }
+        MLPNeuron(uint tSize, T tEtha, T tAlpha = 0)
+            : Neuron<T>(tSize, logistic<T,1,1>, tEtha), 
+              mAlpha(tAlpha), mLastDeltaW(tSize, 0),
+              mLogisticConst((T)1) 
+        {}
 
         // Train this neuron given input and error signals
         // Return Vector of local gradient times weights 
@@ -32,17 +33,17 @@ namespace artnn
 
     private:
         T mAlpha;                       // Momentum factor
-        T mLogisticConst;               // Constant of the logistic function
         std::vector<T> mLastDeltaW;     // Last change to weights
+        T mLogisticConst;               // Constant of the logistic function
     };
 
     template <typename T>
     class MLPLayer
     {
     public:
-        MLPLayer(uint tInputSize, uint tOutputSize, T tEtha, int aNum = 1, int aDen = 1, T tAlpha = 0)
+        MLPLayer(uint tInputSize, uint tOutputSize, T tEtha, T tAlpha = 0)
             : mInputSize(tInputSize), mOutputSize(tOutputSize),
-              mNeuron(tOutputSize, MLPNeuron<T>(tInputSize, tEtha, aNum, aDen, tAlpha))
+              mNeuron(tOutputSize, MLPNeuron<T>(tInputSize, tEtha, tAlpha))
         {}
 
         // Get the output of feeding X to this layer
@@ -66,12 +67,12 @@ namespace artnn
     class MLP
     {
     public:
-        MLP(std::vector<uint>& tSizes, T tEtha, int aNum = 1, int aDen = 1, T tAlpha = 0)
+        MLP(std::vector<uint>& tSizes, T tEtha, T tAlpha = 0)
             : mSize(tSizes.size()), mLayer(tSizes.size() - 1, nullptr)
         {
             for(uint i = 1; i < tSizes.size(); i++)
             {
-                mLayer[i] = new MLPLayer<T>(tSizes[i-1] + 1, tSizes[i], tEtha, aNum, aDen, tAlpha);
+                mLayer[i] = new MLPLayer<T>(tSizes[i-1] + 1, tSizes[i], tEtha, tAlpha);
             }
         }
 
@@ -81,6 +82,10 @@ namespace artnn
         // Train with input vector X and desired output D
         // Returns mean square error
         T train(const std::vector<T>& X, const std::vector<T>& D);
+
+        // Train this Network for a complete epoch 
+        // Return average mean square error
+        T trainEpoch(std::vector<std::pair<std::vector<T>, std::vector<T>>>& trainingData);
 
         // Initialize with random weights given by random
         // generating function
