@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <cmath>
+
 namespace artnn
 {
     // Sign function: 0 if x < 0 and 1 otherwise
@@ -24,5 +26,13 @@ namespace artnn
     inline T id(T x)
     {
     	return x;
+    } 
+
+    // Logistic function (a = num / den)
+    template <typename T, int num = 1, int den = 1>
+    inline T logistic(T x)
+    {
+        T a = static_cast<T>(num) / static_cast<T>(den);
+        return 1 / (1 + exp(-a*x));
     } 
 };
