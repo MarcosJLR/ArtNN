@@ -24,12 +24,12 @@ namespace artnn
         MLPNeuron(uint tSize, T tEtha, T tAlpha = 0)
             : Neuron<T>(tSize, logistic<T,1,1>, tEtha), 
               mAlpha(tAlpha), mLastDeltaW(tSize, 0),
-              mLogisticConst((T)1) 
+              mLogisticConst(1) 
         {}
 
         // Train this neuron given input and error signals
         // Return Vector of local gradient times weights 
-        std::vector<T> train(const std::vector<T>& X, const T errorSignal);
+        std::vector<T> train(const std::vector<T>& X, const T errorSignal, const T y);
 
     private:
         T mAlpha;                       // Momentum factor
@@ -51,7 +51,8 @@ namespace artnn
 
         // Train this layer given input and error signals
         // Return Vector of sumation of local gradients times weights 
-        std::vector<T> train(const std::vector<T>& X, const std::vector<T>& errorSignal);
+        std::vector<T> train(const std::vector<T>& X, const std::vector<T>& errorSignal,
+                             const std::vector<T>& Y);
 
         // Initialize with random weights given by random
         // generating function
@@ -72,7 +73,7 @@ namespace artnn
         {
             for(uint i = 1; i < tSizes.size(); i++)
             {
-                mLayer[i] = new MLPLayer<T>(tSizes[i-1] + 1, tSizes[i], tEtha, tAlpha);
+                mLayer[i-1] = new MLPLayer<T>(tSizes[i-1] + 1, tSizes[i], tEtha, tAlpha);
             }
         }
 
@@ -86,6 +87,12 @@ namespace artnn
         // Train this Network for a complete epoch 
         // Return average mean square error
         T trainEpoch(std::vector<std::pair<std::vector<T>, std::vector<T>>>& trainingData);
+
+        // Return mean square error
+        T validate(const std::vector<T>& X, const std::vector<T>& D);
+
+        // Return average mean square error
+        T validateEpoch(std::vector<std::pair<std::vector<T>, std::vector<T>>>& validationData);
 
         // Initialize with random weights given by random
         // generating function
