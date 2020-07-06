@@ -2,9 +2,12 @@
 
 CC = g++
 CFLAGS = -std=c++17 -O2 -Wall
-OBJS = Neuron.o CSVReader.o Perceptron.o Adaline.o DigitAdalineNetwork.o DigitPerceptronNetwork.o Interpolator.o
+OBJS = Neuron.o CSVReader.o Perceptron.o Adaline.o MLP.o DigitAdalineNetwork.o DigitPerceptronNetwork.o Interpolator.o DigitMLPNetwork.o
 
-all: DigitTester PolyTester clean
+all: MLPDigitTester DigitTester PolyTester clean
+
+MLPDigitTester: src/MLPDigitTester.cpp $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $< $(OBJS)
 
 DigitTester: src/DigitTester.cpp $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $< $(OBJS)
@@ -24,6 +27,9 @@ Perceptron.o: src/Perceptron.cpp src/Perceptron.hpp src/ActivationFunctions.hpp
 Adaline.o: src/Adaline.cpp src/Adaline.hpp src/ActivationFunctions.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+MLP.o: src/MLP.cpp src/MLP.hpp src/ActivationFunctions.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+	
 Interpolator.o: src/Interpolator.cpp src/Interpolator.hpp src/Adaline.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
@@ -31,6 +37,9 @@ DigitPerceptronNetwork.o: src/DigitPerceptronNetwork.cpp src/DigitPerceptronNetw
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 DigitAdalineNetwork.o: src/DigitAdalineNetwork.cpp src/DigitAdalineNetwork.hpp
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+DigitMLPNetwork.o: src/DigitMLPNetwork.cpp src/DigitMLPNetwork.hpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
